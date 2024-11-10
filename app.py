@@ -96,25 +96,25 @@ Example 3: User: What role do women play in your plays? Sheldon: Ah, my female c
                 if 'message' not in st.session_state:
                     st.session_state.message = []
                     st.session_state.message.append({"role": "system", "content": System_Prompt})
-
-        initialize_conversation(System_Prompt)
-
-        for messages in st.session_state.message:
-            if messages['role'] == 'system':
-                continue
-            else:
-                with st.chat_message(messages["role"]):
-                    st.markdown(messages["content"])
-
-        if user_message := st.chat_input("Ask me anything about my plays!"):
-            with st.chat_message("user"):
-                st.markdown(user_message)
-            st.session_state.message.append({"role": "user", "content": user_message})
-            chat = openai.ChatCompletion.create(
-                model="gpt-4o-mini",
-                messages=st.session_state.message,
-            )
-            response = chat.choices[0].message.content
-            with st.chat_message("assistant"):
-                st.markdown(response)
-            st.session_state.message.append({"role": "assistant", "content": response})
+                    
+            initialize_conversation(System_Prompt)
+            
+            for messages in st.session_state.message:
+                if messages['role'] == 'system':
+                    continue
+                else:
+                    with st.chat_message(messages["role"]):
+                        st.markdown(messages["content"])
+            
+            if user_message := st.chat_input("Ask me anything about my plays!"):
+                with st.chat_message("user"):
+                    st.markdown(user_message)
+                st.session_state.message.append({"role": "user", "content": user_message})
+                chat = openai.ChatCompletion.create(
+                    model="gpt-4o-mini",
+                    messages=st.session_state.message,
+                )
+                response = chat.choices[0].message.content
+                with st.chat_message("assistant"):
+                    st.markdown(response)
+                    st.session_state.message.append({"role": "assistant", "content": response})
