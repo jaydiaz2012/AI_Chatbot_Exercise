@@ -21,7 +21,7 @@ from bs4 import BeautifulSoup
 
 warnings.filterwarnings("ignore")
 
-st.set_page_config(page_title="The Shakespeare Bot: Ask William Anything!", page_icon="🎭", layout="wide")
+st.set_page_config(page_title="The Shakespeare Bot: Ask William Anything!", page_icon="🎭", layout="wide", initial_sidebar_state="expanded")
 
 with st.sidebar:
     st.image('images/logo1.png')
