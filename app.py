@@ -48,8 +48,8 @@ with st.sidebar:
         styles={
             "icon": {"color": "#ff2d00", "font-size": "20px"},
             "nav-link": {"font-size": "17px", "text-align": "left", "margin": "5px", "--hover-color": "#262730"},
-            "nav-link-selected": {"background-color": "#a70182"},
-            "body": {"background-color": "white"}
+            "nav-link-selected": {"background-color": "#f0ff00"},
+            "body": {"background-color": "#ffffff"}
         }
     )
 
