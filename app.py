@@ -49,7 +49,7 @@ with st.sidebar:
             "icon": {"color": "#ff2d00", "font-size": "20px"},
             "nav-link": {"font-size": "17px", "text-align": "left", "margin": "5px", "--hover-color": "#262730"},
             "nav-link-selected": {"background-color": "#f0ff00"},
-            "body": {"background-color": "#ffffff"}
+            "body": {"background-color": "#ffffff"},
         }
     )
 
