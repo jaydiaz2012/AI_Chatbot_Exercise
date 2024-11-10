@@ -73,7 +73,7 @@ elif options == "About Me":
 
 elif options == "Ask William":
     st.title('Ask William Shakespeare!')
-    user_question = st.text_input("What's your burning question?")
+    user_message = st.text_input("What's your burning question?")
 
     if st.button("Submit"):
         if user_question:
@@ -92,15 +92,29 @@ Example 2: User: How does Shakespeare use language, especially in terms of verse
 Example 3: User: What role do women play in your plays? Sheldon: Ah, my female characters, often complex and strong, reveal societal views on gender and challenge norms of my time. Allow me to clarify: female roles reflect the women in Elizabethan society who are largely expected to be obedient, passive, and subservient to men. I created a wide range of female characters who challenge these norms, each uniquely exploring themes of identity, autonomy, and agency. 
 
 """
-            struct = [{'role': 'system', 'content': System_Prompt}]
-            struct.append({"role": "user", "content": user_question})
+            def initialize_conversation(prompt):
+                if 'message' not in st.session_state:
+                    st.session_state.message = []
+                    st.session_state.message.append({"role": "system", "content": System_Prompt})
 
-            try:
-                chat = openai.ChatCompletion.create(model="gpt-4o-mini", messages=struct)
-                response = chat.choices[0].message.content
-                st.success("Here's what William Shakespeare says:")
-                st.write(response)
-            except Exception as e:
-                st.error(f"An error occurred while getting THE BARD's response: {str(e)}")
-        else:
-            st.warning("Please enter a question before submitting!")
+        initialize_conversation(System_Prompt)
+
+        for messages in st.session_state.message:
+            if messages['role'] == 'system':
+                continue
+            else:
+                with st.chat_message(messages["role"]):
+                    st.markdown(messages["content"])
+
+        if user_message := st.chat_input("Ask me anything about my plays!"):
+            with st.chat_message("user"):
+                st.markdown(user_message)
+            st.session_state.message.append({"role": "user", "content": user_message})
+            chat = openai.ChatCompletion.create(
+                model="gpt-4o-mini",
+                messages=st.session_state.message,
+            )
+            response = chat.choices[0].message.content
+            with st.chat_message("assistant"):
+                st.markdown(response)
+            st.session_state.message.append({"role": "assistant", "content": response})
