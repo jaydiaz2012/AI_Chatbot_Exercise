@@ -59,9 +59,9 @@ if 'messages' not in st.session_state:
 if options == "Home":
     st.title('Electra: The Energy Bot')
     st.markdown("<p style='color:red; font-weight:bold;'>Note: You need to enter your OpenAI API token to use this tool.</p>", unsafe_allow_html=True)
-    st.write("Welcome to Electra, the Energy Bot, where you can ask anything about electricity and energy!")
+    st.write("Welcome to Electra, the Energy Bot, developed by Jeremie Diaz. Ask anything about electricity and energy!")
     st.write("## How It Works")
-    st.write("Simply type in your question, and let electricity ENLIGHTEN you.")
+    st.write("Click on Ask Electra. Simply type in your question, and let electricity ENLIGHTEN you.")
 
 elif options == "About the Bot Developer":
     st.image('images/20241002_073810_resized.jpg')
