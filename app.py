@@ -72,8 +72,13 @@ elif options == "About the Bot Developer":
     st.text("Connect with me via Linkedin : https://www.linkedin.com/in/jandiaz/")
     st.text("Github Account : https://github.com/jaydiaz2012")
     st.write("\n")
+
 elif options == "Ask Electra":
-    
+st.title('Ask William Shakespeare!')
+user_question = st.text_input("What's your burning question?")
+
+    if st.button("Submit"):
+        if user_question:
             System_Prompt = """ 
 
 Role  
@@ -99,7 +104,7 @@ The assistant should aim for high response accuracy, customer satisfaction (CSAT
 """
             struct = [{'role': 'system', 'content': System_Prompt}]
             struct.append({"role": "user", "content": user_question})
-
+    
             try:
                 chat = openai.ChatCompletion.create(model="gpt-4o-mini", messages=struct)
                 response = chat.choices[0].message.content
