@@ -97,29 +97,15 @@ Evaluation
 The assistant should aim for high response accuracy, customer satisfaction (CSAT), and engagement rates. It should handle out-of-scope inquiries gracefully by suggesting alternatives or escalating to human agents as needed. Regularly review and update its language model and knowledge base based on user feedback and new product updates.
 
 """
-         def initialize_conversation(prompt):
-            if 'message' not in st.session_state:
-                st.session_state.message = []
-                st.session_state.message.append({"role": "system", "content": System_Prompt})
+            struct = [{'role': 'system', 'content': System_Prompt}]
+            struct.append({"role": "user", "content": user_question})
 
-        initialize_conversation(System_Prompt)
-
-        for messages in st.session_state.message:
-            if messages['role'] == 'system':
-                continue
-            else:
-                with st.chat_message(messages["role"]):
-                    st.markdown(messages["content"])
-
-        if user_message := st.chat_input("Ask me anything energy-related!"):
-            with st.chat_message("user"):
-                st.markdown(user_message)
-            st.session_state.message.append({"role": "user", "content": user_message})
-            chat = openai.ChatCompletion.create(
-                model="gpt-4o-mini",
-                messages=st.session_state.message,
-            )
-            response = chat.choices[0].message.content
-            with st.chat_message("assistant"):
-                st.markdown(response)
-            st.session_state.message.append({"role": "assistant", "content": response})
+            try:
+                chat = openai.ChatCompletion.create(model="gpt-4o-mini", messages=struct)
+                response = chat.choices[0].message.content
+                st.success("Here's what Electra says:")
+                st.write(response)
+            except Exception as e:
+                st.error(f"An error occurred while getting Electra's response: {str(e)}")
+        else:
+            st.warning("Please enter a question before submitting!")
