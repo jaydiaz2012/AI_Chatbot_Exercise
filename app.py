@@ -64,7 +64,7 @@ if options == "Home":
     st.write("Simply type in your question, and let electricity ENLIGHTEN you.")
 
 elif options == "About the Bot Developer":
-    st.image('images/20241022_121957.jpg')
+    st.image('images/20241002_073810_resized.jpg')
     st.title('About Me')
     st.write("# Jeremie Diaz, MDC, MTM")
     st.write("## Experienced Communications Marketing Professional | Data Analyst | Aspiring AI Specialist")
