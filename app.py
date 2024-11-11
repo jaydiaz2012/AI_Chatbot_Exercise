@@ -21,7 +21,7 @@ from bs4 import BeautifulSoup
 
 warnings.filterwarnings("ignore")
 
-st.set_page_config(page_title="The Shakespeare Bot: Ask William Anything!", page_icon="🎭", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="The Shakespeare Bot: Ask William Shakespear Anything!", page_icon="🎭", layout="wide", initial_sidebar_state="expanded")
 
 with st.sidebar:
     st.image('images/logo1.png')
@@ -65,11 +65,18 @@ if options == "Home":
     st.write("Simply type in your question, and let THE BARD enlighten you with his vast knowledge and unique perspective.")
 
 elif options == "About Me":
+    st.image('images/20241022_121957.jpg')
     st.title('About Me')
-    st.subheader("William Shakespeare, the Bard of Avon, led a life of creative genius, leaving behind an unparalleled legacy in literature and drama.")
-    st.write("# Meet William Shakespeare or 'THE BARD'")
-    st.markdown("William Shakespeare (1564–1616) was an English playwright, poet, and actor, often regarded as one of the greatest writers in the English language. He produced a remarkable body of work that includes 39 plays, 154 sonnets, and two narrative poems. His plays, spanning comedies, tragedies, and histories, delve into timeless themes like love, power, ambition, and betrayal. Iconic works such as Hamlet, Romeo and Juliet, Macbeth, and A Midsummer Night's Dream have left a lasting impact on literature and theatre. Shakespeare’s influence endures through his profound insights into human nature, rich language, and enduring relevance.")
-    st.markdown("Know more about William Shakespeare: https://www.shakespeare.org.uk/explore-shakespeare/shakespedia/william-shakespeare/william-shakespeare-biography/")
+    st.write("# Jeremie Diaz, MDC, MTM")
+    st.write("## Experienced Communications Marketing Professional | Data Analyst | Aspiring AI Specialist")
+    st.markdown("With over ten years of experience in digital marketing including social media strategy and content development, I bring a unique blend of technical and creative skills to the digital landscape. Currently, I am a Web Developer with hands-on expertise in enhancing user engagement and optimizing digital interactions. As a professional in the digital marketing sector, I’m now focusing on building an AI-powered chatbot to streamline customer service by efficiently addressing order-related queries. Passionate about artificial intelligence and its potential, I'm committed to leveraging emerging technologies to drive business growth and enhance customer experiences.")
+    st.text("Connect with me via Linkedin : https://www.linkedin.com/in/jandiaz/")
+    st.text("Github Account : https://github.com/jaydiaz2012")
+    st.write("\n")
+    
+    
+    
+    
     st.write("\n")
 
 elif options == "Ask William":
