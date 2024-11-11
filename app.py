@@ -74,8 +74,8 @@ elif options == "About the Bot Developer":
     st.write("\n")
 
 elif options == "Ask Electra":
-st.title('Ask William Shakespeare!')
-user_question = st.text_input("What's your burning question?")
+    st.title('Ask Electra!')
+    user_question = st.text_input("What's your burning question?")
 
     if st.button("Submit"):
         if user_question:
