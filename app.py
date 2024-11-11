@@ -68,14 +68,14 @@ elif options == "About the Bot Developer":
     st.title('About Me')
     st.write("# Jeremie Diaz, MDC, MTM")
     st.write("## Experienced Communications Marketing Professional | Data Analyst | Aspiring AI Specialist")
-    st.markdown("With over ten years of experience in digital marketing including social media strategy and content development, I bring a unique blend of technical and creative skills to the digital landscape. Currently, I am a Web Developer with hands-on expertise in enhancing user engagement and optimizing digital interactions. As a professional in the digital marketing sector, I’m now focusing on building an AI-powered chatbot to streamline customer service by efficiently addressing order-related queries. Passionate about artificial intelligence and its potential, I'm committed to leveraging emerging technologies to drive business growth and enhance customer experiences.")
+    st.markdown("With over ten years of experience in digital marketing including social media strategy and content development, I bring a unique blend of technical and creative skills to the digital landscape. I am a Data Analyst, Digital Marketing Analyst, and AI Developer with hands-on expertise in enhancing user engagement and optimizing digital interactions. As a professional in the digital marketing sector, I’m now focusing on building an AI-powered chatbot to streamline customer service by efficiently addressing order-related queries. Passionate about artificial intelligence and its potential, I'm committed to leveraging emerging technologies to drive business growth and enhance customer experiences.")
     st.text("Connect with me via Linkedin : https://www.linkedin.com/in/jandiaz/")
     st.text("Github Account : https://github.com/jaydiaz2012")
     st.write("\n")
 
 elif options == "Ask Electra":
     st.title('Ask Electra!')
-    user_question = st.text_input("What's your burning question?")
+    user_question = st.text_input("What's your ELECTRIFYING question?")
 
     if st.button("Submit"):
         if user_question:
