@@ -5,7 +5,7 @@ import pandas as pd
 import json
 from langchain_community.chat_models import ChatOpenAI
 #from langchain.document_loaders import CSVLoader
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain.prompts import ChatPromptTemplate
 from langchain.vectorstores import Chroma
 from langchain_core.output_parsers import StrOutputParser
