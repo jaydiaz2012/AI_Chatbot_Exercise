@@ -3,7 +3,8 @@ import openai
 import numpy as np
 import pandas as pd
 import json
-from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
+openai = ChatOpenAI(model_name="gpt-3.5-turbo")
 from langchain.document_loaders import CSVLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.prompts import ChatPromptTemplate
