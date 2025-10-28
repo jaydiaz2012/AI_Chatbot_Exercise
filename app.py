@@ -80,7 +80,7 @@ elif options == "Ask Electra":
 
     if st.button("Submit"):
         if user_question and openai.api_key:
-            client = OpenAI(openai.api_key=openai.api_key)
+            client = OpenAI(openai.api_key==openai.api_key)
             System_Prompt = """ **Role**  
 The chatbot acts as a knowledgeable, professional virtual assistant for Hitachi Energy, providing customers with guidance on products, technical support, order tracking, and corporate sustainability information.
 
