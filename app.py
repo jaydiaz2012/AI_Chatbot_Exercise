@@ -48,7 +48,7 @@ with st.sidebar:
     )
 
 if "memory" not in st.session_state:
-    st.session_state.messages = ConverstationBufferMemory(return_messages=True)
+    st.session_state.messages = ConversationBufferMemory(return_messages=True)
 
 # Options : Home
 if options == "Home":
