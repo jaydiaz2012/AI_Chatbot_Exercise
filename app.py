@@ -1,13 +1,13 @@
 import os
 import warnings
 import streamlit as st
-from streamlit_option_menu import option_menu
-from streamlit_extras.mention import mention
+#from streamlit_option_menu import option_menu
+#from streamlit_extras.mention import mention
+from langchain_openai import ChatOpenAI  
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain.memory import ConversationBufferMemory
-from langchain_openai import ChatOpenAI  
 
 warnings.filterwarnings("ignore")
 
@@ -26,12 +26,21 @@ with st.sidebar:
         st.warning("Please enter your OpenAI API token!", icon="⚠️")
     else:
         st.success("Proceed to ask Electra your question!", icon="👉")
+
+#    options = st.radio("Choose a section:", ["Home", "Ask Electra"], index=1)
+
+if "memory" not in st.session_state:
+    st.session_state.memory = ConversationBufferMemory(return_messages=True)
+
+if options == "Ask Electra":
+    st.title(" Ask Electra")
+    user_question = st.text_input("What's your question for Electra?")
         
-    with st.container() :
-        l, m, r = st.columns((1, 3, 1))
-        with l : st.empty()
-        with m : st.empty()
-        with r : st.empty()
+#    with st.container() :
+#        l, m, r = st.columns((1, 3, 1))
+#        with l : st.empty()
+#        with m : st.empty()
+#        with r : st.empty()
 
     options = option_menu(
         "Dashboard",
@@ -45,10 +54,7 @@ with st.sidebar:
             "nav-link-selected": {"background-color": "#f0ff00"},
             "body": {"background-color": "#ffffff"},
         }
-    )
-
-if "memory" not in st.session_state:
-    st.session_state.messages = ConversationBufferMemory(return_messages=True)
+   )
 
 # Options : Home
 if options == "Home":
@@ -110,7 +116,8 @@ Example 3: User: Can black holes really bend time? Sheldon: Ah, black holes and 
         llm= ChatOpenAI(
             model = "gpt-4o-mini",
             temperature = 0.7,
-            api_key=api_key
+            api_key=api_key,
+            max_retries=2
         )
 
         prompt = ChatPromptTemplate.from_messages([
