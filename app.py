@@ -1,4 +1,5 @@
 import os
+import openai
 import warnings
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -24,9 +25,9 @@ st.set_page_config(
 
 with st.sidebar:
     st.image('images/electricity1.jpg')
-    api_key = st.text_input("Enter your OpenAI API Token:", type="password")
+    openai.api_key = st.text_input("Enter your OpenAI API Token:", type="password")
 
-    if not (api_key.startswith("sk-") and len(api_key) > 40):
+    if not (openai.api_key.startswith("sk-") and len(openai.api_key) > 40):
         st.warning("Please enter your OpenAI API token!", icon="⚠️")
     else:
         st.success("Proceed to ask Electra your question!", icon="👉")
