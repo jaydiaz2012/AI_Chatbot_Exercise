@@ -118,7 +118,7 @@ Example 3: User: Can black holes really bend time? Sheldon: Ah, black holes and 
             for m in st.session_state.memory.chat_memory.messages:
                 role= "user" if m.type == "human" else "assistant"
                 messages.append({"role": role, "content": m.content})
-            messages.append({"role": "user", "content": user_question)}
+            messages.append({"role": "user", "content": user_question})
 
             completion = client.chat.completions.create(
                 model="gpt-4o-mini",
