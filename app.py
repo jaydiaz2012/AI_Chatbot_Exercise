@@ -79,8 +79,8 @@ elif options == "Ask Electra":
     user_question = st.text_input("What's your ELECTRIFYING question?")
 
     if st.button("Submit"):
-        if user_question and openai.api_key:
-            client = OpenAI(openai.api_key==openai.api_key)
+        if user_question and api_key:
+            client = OpenAI(api_key=api_key)
             System_Prompt = """ **Role**  
 The chatbot acts as a knowledgeable, professional virtual assistant for Hitachi Energy, providing customers with guidance on products, technical support, order tracking, and corporate sustainability information.
 
@@ -115,19 +115,33 @@ Example 3: User: Can black holes really bend time? Sheldon: Ah, black holes and 
                 {'role': 'system', 'content': System_Prompt},
                 {"role": "user", "content": user_question},
             ]
-    
-            try:
-                response = client.chat.completions.create(
-                    model = "gpt-4o-mini", 
-                    messages=messages,
-                    temperature=0.7,
-                )
+            for m in st.session_state.memory.chat_memory.messages:
+                role= "user" if m.type == "human" else "assistant"
+                messages.append({"role": role, "content": m.content})
+            messages.append({"role": "user", "content": user_question)}
 
-                answer = response.choices[0].message.content
-                st.success("Here's what Electra says:")
-                st.write(answer)
+            completion = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=messages,
+                temperature=0.7,
+            )
+            response = completion.choices[0].message.content
+            
+            st.session_state.memory.chat_memory.add_user_message(user_question)
+            st.session_state.memory.chat_memory.add_ai_message(response)
+            
+            #try:
+            #    response = client.chat.completions.create(
+            #       model = "gpt-4o-mini", 
+            #        messages=messages,
+            #        temperature=0.7,
+            #    )
+
+             #   answer = response.choices[0].message.content
+             #   st.success("Here's what Electra says:")
+              #  st.write(answer)
                 
-            except Exception as e:
-                st.error(f"An error occurred while getting Electra's response: {str(e)}")
-        else:
-            st.warning("Please enter a question before submitting!")
+            #except Exception as e:
+            #    st.error(f"An error occurred while getting Electra's response: {str(e)}")
+        #else:
+        #    st.warning("Please enter a question before submitting!")
