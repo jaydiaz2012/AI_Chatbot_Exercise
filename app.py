@@ -125,7 +125,7 @@ Example 3: User: Can black holes really bend time? Sheldon: Ah, black holes and 
 
                 answer = response.choices[0].message.content
                 st.success("Here's what Electra says:")
-                st.write(response)
+                st.write(answer)
                 
             except Exception as e:
                 st.error(f"An error occurred while getting Electra's response: {str(e)}")
