@@ -10,7 +10,7 @@ import pandas as pd
 import json
 from openai import OpenAI
 from langchain.prompts import ChatPromptTemplate
-from langchain_community.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.schema import StrOutputParser
 
 warnings.filterwarnings("ignore")
