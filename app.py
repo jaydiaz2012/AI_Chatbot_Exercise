@@ -1,18 +1,13 @@
 import os
-import openai
 import warnings
 import streamlit as st
 from streamlit_option_menu import option_menu
 from streamlit_extras.mention import mention
-from bs4 import BeautifulSoup
-import requests
-import numpy as np
-import pandas as pd
-import json
-from openai import OpenAI
-from langchain.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
-from langchain.schema import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain.memory import ConversationBufferMemory
+from langchain_openai import ChatOpenAI  
 
 warnings.filterwarnings("ignore")
 
@@ -28,7 +23,6 @@ with st.sidebar:
     api_key = st.text_input("Enter your OpenAI API Token:", type="password")
 
     if not (api_key.startswith("sk-") and len(api_key) > 40):
-        openai.api_key = api_key
         st.warning("Please enter your OpenAI API token!", icon="⚠️")
     else:
         st.success("Proceed to ask Electra your question!", icon="👉")
@@ -53,8 +47,8 @@ with st.sidebar:
         }
     )
 
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
+if "memory" not in st.session_state:
+    st.session_state.messages = ConverstationBufferMemory(return_messages=True)
 
 # Options : Home
 if options == "Home":
@@ -78,10 +72,10 @@ elif options == "Ask Electra":
     st.title('Ask Electra!')
     user_question = st.text_input("What's your ELECTRIFYING question?")
 
-    if st.button("Submit"):
-        if user_question and api_key:
-            client = OpenAI(api_key=api_key)
-            System_Prompt = """ **Role**  
+ #   if st.button("Submit"):
+ #       if user_question and api_key:
+ #           client = OpenAI(api_key=api_key)
+    system_prompt = """ **Role**  
 The chatbot acts as a knowledgeable, professional virtual assistant for Hitachi Energy, providing customers with guidance on products, technical support, order tracking, and corporate sustainability information.
 
 **Identity**  
@@ -111,24 +105,68 @@ Example 2: User: How does quantum entanglement work? Sheldon: Quantum entangleme
 
 Example 3: User: Can black holes really bend time? Sheldon: Ah, black holes and time! Allow me to clarify: black holes are so dense that their gravity distorts space-time around them, like a particularly hefty bowling ball on a trampoline. Time itself slows near their event horizons, relative to an outside observer. So, yes, they “bend” time, in the same way I bend the rules of social decorum at a comic book store sale. Fascinating, isn’t it? Just don’t get too close, or you’ll be stretched into oblivion, courtesy of the phenomenon known as spaghettification.
 """
-            messages = [
-                {'role': 'system', 'content': System_Prompt},
-                {"role": "user", "content": user_question},
-            ]
-            for m in st.session_state.memory.chat_memory.messages:
-                role= "user" if m.type == "human" else "assistant"
-                messages.append({"role": role, "content": m.content})
-            messages.append({"role": "user", "content": user_question})
 
-            completion = client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=messages,
-                temperature=0.7,
-            )
-            response = completion.choices[0].message.content
+    if api_key and api_key.startswith("sk-"):
+        llm= ChatOpenAI(
+            model = "gpt-4o-mini",
+            temperature = 0.7,
+            api_key=api_key
+        )
+
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", system_prompt),
+            MesagesPlaceholder(variable_name="history"),
+            ("user", "{question}")
+        ])
+
+        chain = (
+            {
+                "history": lambda _: st.session_state.memory.chat_memory.messages, 
+                "question": RunnablePassthrough()
+            }
+            | prompt
+            | llm
+            | StrOutputParser()
+        )
+
+        if st.button("Submit"):
+            if user_question.strip():
+                try:
+                    response = chain.invoke(user_question)
+                    st.session_state.memory.chat_memory.add_user_messaage(user_question)
+                    st.session_state.memory.chat_memory.add_ai_message(response)
+                    st.success("Here's what Electra says:")
+                    st.write(response)
+
+                    with st.expander("View Conversation History"):
+                        for msg in st.session_state_memory.chat_memory.messages:
+                            role = "User" if msg.type == "human" else "Electra"
+                            st.markdown(f"**{role}:** {msg.content}")
+                except Exception as e:
+                    st.error(f"Error: {e}")
+            else:
+                st.warning("Please enter a question before submitting.")
+        else:
+            st.warning("Enter your valid OpenAI API key to start chatting.")
+
+#            messages = [
+#                {'role': 'system', 'content': System_Prompt},
+#                {"role": "user", "content": user_question},
+#            ]
+#            for m in st.session_state.memory.chat_memory.messages:
+#                role= "user" if m.type == "human" else "assistant"
+#                messages.append({"role": role, "content": m.content})
+#            messages.append({"role": "user", "content": user_question})
+#
+#            completion = client.chat.completions.create(
+#                model="gpt-4o-mini",
+#                messages=messages,
+#                temperature=0.7,
+#            )
+ #           response = completion.choices[0].message.content
             
-            st.session_state.memory.chat_memory.add_user_message(user_question)
-            st.session_state.memory.chat_memory.add_ai_message(response)
+ #           st.session_state.memory.chat_memory.add_user_message(user_question)
+  #          st.session_state.memory.chat_memory.add_ai_message(response)
             
             #try:
             #    response = client.chat.completions.create(
