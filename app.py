@@ -32,9 +32,9 @@ with st.sidebar:
 if "memory" not in st.session_state:
     st.session_state.memory = ConversationBufferMemory(return_messages=True)
 
-if options == "Ask Electra":
-    st.title(" Ask Electra")
-    user_question = st.text_input("What's your question for Electra?")
+#if options == "Ask Electra":
+#    st.title(" Ask Electra")
+#    user_question = st.text_input("What's your question for Electra?")
         
 #    with st.container() :
 #        l, m, r = st.columns((1, 3, 1))
