@@ -1,8 +1,8 @@
 import os
 import warnings
 import streamlit as st
-#from streamlit_option_menu import option_menu
-#from streamlit_extras.mention import mention
+from streamlit_option_menu import option_menu
+from streamlit_extras.mention import mention
 from langchain_openai import ChatOpenAI  
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
