@@ -28,7 +28,7 @@ with st.sidebar:
 
     if not (api_key.startswith("sk-") and len(api_key) > 40):
         st.warning("Please enter your OpenAI API token!", icon="⚠️")
-    else
+    else:
         st.success("Proceed to ask Electra your question!", icon="👉")
         
     with st.container() :
