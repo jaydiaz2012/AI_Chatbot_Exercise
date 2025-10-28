@@ -52,7 +52,7 @@ if "memory" not in st.session_state:
             "nav-link": {"font-size": "17px", "text-align": "left", "margin": "5px", "--hover-color": "#262730"},
             "nav-link-selected": {"background-color": "#f0ff00"},
             "body": {"background-color": "#ffffff"},
-        }
+        },
    )
 
 # Options : Home
