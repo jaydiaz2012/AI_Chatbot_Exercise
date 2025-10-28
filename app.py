@@ -27,10 +27,6 @@ with st.sidebar:
         st.success("Proceed to ask Electra your question!", icon="👉")
 
 #    options = st.radio("Choose a section:", ["Home", "Ask Electra"], index=1)
-
-if "memory" not in st.session_state:
-    st.session_state.memory = ConversationBufferMemory(return_messages=True)
-
 #if options == "Ask Electra":
 #    st.title(" Ask Electra")
 #    user_question = st.text_input("What's your question for Electra?")
@@ -54,6 +50,9 @@ if "memory" not in st.session_state:
             "body": {"background-color": "#ffffff"},
         },
    )
+    
+if "memory" not in st.session_state:
+    st.session_state.memory = ConversationBufferMemory(return_messages=True)
 
 # Options : Home
 if options == "Home":
