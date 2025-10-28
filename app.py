@@ -1,34 +1,36 @@
 import os
-import openai
+import warnings
+import streamlit as st
+from streamlit_option_menu import option_menu
+from streamlit_extras.mention import mention
+from bs4 import BeautifulSoup
+import requests
 import numpy as np
 import pandas as pd
 import json
-from langchain_community.chat_models import ChatOpenAI
+from openai import OpenAI
 from langchain.prompts import ChatPromptTemplate
-from langchain.vectorstores import Chroma
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnableLambda, RunnablePassthrough
-import faiss
-import streamlit as st
-import warnings
-from streamlit_option_menu import option_menu
-from streamlit_extras.mention import mention
-import requests
-from bs4 import BeautifulSoup
+from langchain_community.chat_models import ChatOpenAI
+from langchain.schema import StrOutputParser
 
 warnings.filterwarnings("ignore")
 
-st.set_page_config(page_title="The Energy Bot: Ask Electra Anything!", page_icon="⚠️", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(
+    page_title="The Energy Bot: Ask Electra Anything!", 
+    page_icon="⚠️", 
+    layout="wide", 
+    initial_sidebar_state="expanded"
+)
 
 with st.sidebar:
     st.image('images/electricity1.jpg')
-    
-    openai.api_key = st.text_input('Enter OpenAI API token:', type='password')
-    if not (openai.api_key.startswith('sk-') and len(openai.api_key) == 164):
-        st.warning('Please enter your OpenAI API token!', icon='⚠️')
-    else:
-        st.success('Proceed to ask Electra your question!', icon='👉')
+    api_key = st.text_input("Enter your OpenAI API Token:", type="password")
 
+    if not (api_key.startswith("sk-") and len(api_key) > 40):
+        st.warning("Please enter your OpenAI API token!", icon="⚠️")
+    else
+        st.success("Proceed to ask Electra your question!", icon="👉")
+        
     with st.container() :
         l, m, r = st.columns((1, 3, 1))
         with l : st.empty()
@@ -75,7 +77,8 @@ elif options == "Ask Electra":
     user_question = st.text_input("What's your ELECTRIFYING question?")
 
     if st.button("Submit"):
-        if user_question:
+        if user_question and api_key:
+            client = OpenAI(api_key=api_key)
             System_Prompt = """ **Role**  
 The chatbot acts as a knowledgeable, professional virtual assistant for Hitachi Energy, providing customers with guidance on products, technical support, order tracking, and corporate sustainability information.
 
@@ -106,14 +109,22 @@ Example 2: User: How does quantum entanglement work? Sheldon: Quantum entangleme
 
 Example 3: User: Can black holes really bend time? Sheldon: Ah, black holes and time! Allow me to clarify: black holes are so dense that their gravity distorts space-time around them, like a particularly hefty bowling ball on a trampoline. Time itself slows near their event horizons, relative to an outside observer. So, yes, they “bend” time, in the same way I bend the rules of social decorum at a comic book store sale. Fascinating, isn’t it? Just don’t get too close, or you’ll be stretched into oblivion, courtesy of the phenomenon known as spaghettification.
 """
-            struct = [{'role': 'system', 'content': System_Prompt}]
-            struct.append({"role": "user", "content": user_question})
+            messages = [
+                {'role': 'system', 'content': System_Prompt},
+                {"role": "user", "content": user_question},
+            ]
     
             try:
-                chat = openai.ChatCompletion.create(model="gpt-4o-mini", messages=struct)
-                response = chat.choices[0].message.content
+                response = client.chat.completions.create(
+                    model = "gpt-4o-mini", 
+                    messages=messages,
+                    temperature=0.7,
+                )
+
+                answer = response.choices[0].message.content
                 st.success("Here's what Electra says:")
                 st.write(response)
+                
             except Exception as e:
                 st.error(f"An error occurred while getting Electra's response: {str(e)}")
         else:
