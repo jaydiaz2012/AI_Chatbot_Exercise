@@ -120,7 +120,7 @@ Example 3: User: Can black holes really bend time? Sheldon: Ah, black holes and 
 
         prompt = ChatPromptTemplate.from_messages([
             ("system", system_prompt),
-            MesagesPlaceholder(variable_name="history"),
+            MessagesPlaceholder(variable_name="history"),
             ("user", "{question}")
         ])
 
