@@ -25,9 +25,10 @@ st.set_page_config(
 
 with st.sidebar:
     st.image('images/electricity1.jpg')
-    openai.api_key = st.text_input("Enter your OpenAI API Token:", type="password")
+    api_key = st.text_input("Enter your OpenAI API Token:", type="password")
 
-    if not (openai.api_key.startswith("sk-") and len(openai.api_key) > 40):
+    if not (api_key.startswith("sk-") and len(api_key) > 40):
+        openai.api_key = api_key
         st.warning("Please enter your OpenAI API token!", icon="⚠️")
     else:
         st.success("Proceed to ask Electra your question!", icon="👉")
@@ -78,8 +79,8 @@ elif options == "Ask Electra":
     user_question = st.text_input("What's your ELECTRIFYING question?")
 
     if st.button("Submit"):
-        if user_question and api_key:
-            client = OpenAI(api_key=api_key)
+        if user_question and openai.api_key:
+            client = OpenAI(openai.api_key=openai.api_key)
             System_Prompt = """ **Role**  
 The chatbot acts as a knowledgeable, professional virtual assistant for Hitachi Energy, providing customers with guidance on products, technical support, order tracking, and corporate sustainability information.
 
