@@ -35,11 +35,11 @@ if "memory" not in st.session_state:
 #    st.title(" Ask Electra")
 #    user_question = st.text_input("What's your question for Electra?")
         
-#    with st.container() :
-#        l, m, r = st.columns((1, 3, 1))
-#        with l : st.empty()
-#        with m : st.empty()
-#        with r : st.empty()
+    with st.container() :
+        l, m, r = st.columns((1, 3, 1))
+        with l : st.empty()
+        with m : st.empty()
+        with r : st.empty()
 
     options = option_menu(
         "Dashboard",
