@@ -51,8 +51,8 @@ with st.sidebar:
         },
    )
     
-if "memory" not in st.session_state:
-    st.session_state.memory = ConversationBufferMemory(return_messages=True)
+#if "memory" not in st.session_state:
+#    st.session_state.memory = ConversationBufferMemory(return_messages=True)
 
 # Options : Home
 if options == "Home":
@@ -118,35 +118,35 @@ Example 3: User: Can black holes really bend time? Sheldon: Ah, black holes and 
             max_retries=2
         )
 
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", system_prompt),
-            MessagesPlaceholder(variable_name="history"),
-            ("user", "{question}")
-        ])
+#        prompt = ChatPromptTemplate.from_messages([
+#            ("system", system_prompt),
+#            MessagesPlaceholder(variable_name="history"),
+#            ("user", "{question}")
+#        ])
 
-        chain = (
-            {
-                "history": lambda _: st.session_state.memory.chat_memory.messages, 
-                "question": RunnablePassthrough()
-            }
-            | prompt
-            | llm
-            | StrOutputParser()
-        )
+#        chain = (
+#            {
+#                "history": lambda _: st.session_state.memory.chat_memory.messages, 
+#                "question": RunnablePassthrough()
+#            }
+#            | prompt
+#            | llm
+#            | StrOutputParser()
+#       )
 
         if st.button("Submit"):
             if user_question.strip():
                 try:
                     response = chain.invoke(user_question)
-                    st.session_state.memory.chat_memory.add_user_messaage(user_question)
-                    st.session_state.memory.chat_memory.add_ai_message(response)
+#                    st.session_state.memory.chat_memory.add_user_messaage(user_question)
+#                    st.session_state.memory.chat_memory.add_ai_message(response)
                     st.success("Here's what Electra says:")
                     st.write(response)
 
-                    with st.expander("View Conversation History"):
-                        for msg in st.session_state_memory.chat_memory.messages:
-                            role = "User" if msg.type == "human" else "Electra"
-                            st.markdown(f"**{role}:** {msg.content}")
+#                    with st.expander("View Conversation History"):
+#                        for msg in st.session_state_memory.chat_memory.messages:
+#                            role = "User" if msg.type == "human" else "Electra"
+#                            st.markdown(f"**{role}:** {msg.content}")
                 except Exception as e:
                     st.error(f"Error: {e}")
             else:
